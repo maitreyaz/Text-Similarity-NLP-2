@@ -2,7 +2,7 @@
 # that we had trained earlier
 
 from flask import Flask, request, jsonify, render_template
-import spacy
+# import spacy
 import xgboost as xgb
 from sklearn.feature_extraction.text import TfidfVectorizer
 
@@ -12,7 +12,7 @@ df = pd.read_csv("Precily_Text_Similarity.csv")
 from sklearn.model_selection import train_test_split
 traindf, testdf = train_test_split(df, test_size=0.2, random_state=42)
 
-nlp = spacy.load("en_core_web_lg")
+# nlp = spacy.load("en_core_web_lg")
 
 # Loading the model
 xgb_model = xgb.XGBRegressor()
@@ -39,9 +39,9 @@ def predict_similarity():
     text1 = request_data['text1']
     text2 = request_data['text2']
 
-    # Preprocess the texts
-    text1_processed = nlp(text1).text
-    text2_processed = nlp(text2).text
+    # # Preprocess the texts
+    # text1_processed = nlp(text1).text
+    # text2_processed = nlp(text2).text
 
     # Vectorize the preprocessed texts
     text_vector = vectorizer.transform([text1_processed + text2_processed])
