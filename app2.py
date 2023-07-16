@@ -109,5 +109,7 @@ def predict_similarity():
     return jsonify(response)
 
 if __name__ == '__main__':
-    app2.run()
+    # app2.run()
+    from werkzeug.serving import run_simple
+    run_simple('0.0.0.0', 8080, app2)
 
