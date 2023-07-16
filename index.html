@@ -1,0 +1,61 @@
+<!--This is the index.html file that will be rendered on running the app.py flask application-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text Similarity Prediction</title>
+</head>
+<body>
+  <h1>Text Similarity Prediction</h1>
+  <form id="textForm">
+    <label for="text1">Text 1:</label><br>
+    <textarea id="text1" name="text1" rows="4" cols="50"></textarea><br><br>
+    <label for="text2">Text 2:</label><br>
+    <textarea id="text2" name="text2" rows="4" cols="50"></textarea><br><br>
+    <input type="submit" value="Predict">
+  </form>
+
+  <div id="resultDiv" style="display: none;">
+    <h3>Similarity Score:</h3>
+    <p id="similarityScore"></p>
+  </div>
+
+  <script>
+    // Handle form submission
+    document.getElementById("textForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      // Get the text inputs
+      var text1 = document.getElementById("text1").value;
+      var text2 = document.getElementById("text2").value;
+
+      // Create the request body with a timestamp
+      var requestBody = {
+        "text1": text1,
+        "text2": text2,
+        "timestamp": Date.now() // Add a timestamp
+      };
+
+      // Send a POST request to the Flask API endpoint
+      fetch("/api/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(requestBody)
+      })
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(data) {
+        // Display the similarity score
+        document.getElementById("similarityScore").textContent = data["similarity score"];
+        document.getElementById("resultDiv").style.display = "block";
+      })
+      .catch(function(error) {
+        console.log("Error:", error);
+      });
+    });
+  </script>
+</body>
+</html>
